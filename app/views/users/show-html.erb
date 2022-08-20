@@ -1,0 +1,33 @@
+%h2 タイトル
+%p= @user.title
+%h2 本文
+%p= @user.body
+%h2 画像
+- if @user.image.attached?
+  = image_tag @user.image, size: "300x300"
+- else
+  = image_tag 'no_image', size: "300x300"
+= link_to "編集", edit_user_path(@user.id)
+
+<div> class="profile-container"
+  <h3> class="profile-name"><%= @user.name %></h3>
+  <%= image_tag @user.get_profile_image(100,100) %>
+  <% if @user.id == current_user.id %>
+  <p><%= link_to "プロフィール編集", edit_user_path(@user) %></p>
+  <% end %>
+</div>
+
+<%= render 'book_images/list', book_images: @book_images %>
+
+<% @book_images.each do |book_image| %>
+<div>
+  <%= link_to book_image_path(book_image.id) do %>
+    <%= image_tag post_image.get_image %>
+  <% end %>
+  <p>投稿ユーザー画像<%= image_tag post_image.user.get_profile_image(100,100) %></p>
+  <p>ショップ名：<%= book_image.shop_name %></p>
+  <p>説明：<%= book_image.caption %></p>
+  <p>ユーザーネーム：<%= book_image.user.name %></p>
+  <p><%= link_to "#{book_image.post_comments.count} コメント", book_image_path(book_image.id) %></p>
+</div>
+<% end %>
