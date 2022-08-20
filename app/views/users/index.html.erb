@@ -1,10 +1,14 @@
-%h1 投稿一覧
-- @users.each do |user|
-  %p タイトル
-  %span
-    = link_to user.title, user_path(user.id)
-  %p 画像
-  - if users.image.attached?
-    = image_tag user.image, size: "200x200"
-  - else
-    = image_tag 'no_image', size: "200x200"
+<h1>投稿一覧</h1>
+<% @users.each do |user| %>
+  <p>タイトル</p>
+  <span>
+    <%= link_to user.title, user_path(user.id) %>
+  </span>
+  <p>画像
+  <% if users.image.attached? %>
+    <%= image_tag user.image, size: "200x200" %>
+  <% else %>
+    <%= image_tag 'no_image', size: "200x200" %>
+  <% end %>
+  </p>
+<% end %>

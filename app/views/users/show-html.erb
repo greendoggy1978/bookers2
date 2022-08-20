@@ -1,19 +1,22 @@
-%h2 タイトル
-%p= @user.title
-%h2 本文
-%p= @user.body
-%h2 画像
-- if @user.image.attached?
-  = image_tag @user.image, size: "300x300"
-- else
-  = image_tag 'no_image', size: "300x300"
-= link_to "編集", edit_user_path(@user.id)
+<h2>タイトル</h2>
+<p><%= @user.title %>
+<h2>本文</h2>
+<p><%= @user.body %></p>
+<h2>画像</h2>
+<% if @user.image.attached? %>
+  <%= image_tag @user.image, size: "300x300" %>
+<% else %>
+  <%= image_tag 'no_image', size: "300x300" %>
+<%= link_to "編集", edit_user_path(@user.id) %>
 
-<div> class="profile-container"
-  <h3> class="profile-name"><%= @user.name %></h3>
+<div class="profile-container">
+  <h3 class="profile-name">
+    <%= @user.name %>
+  </h3>
   <%= image_tag @user.get_profile_image(100,100) %>
+
   <% if @user.id == current_user.id %>
-  <p><%= link_to "プロフィール編集", edit_user_path(@user) %></p>
+    <p><%= link_to "プロフィール編集", edit_user_path(@user) %></p>
   <% end %>
 </div>
 
