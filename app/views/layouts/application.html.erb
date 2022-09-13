@@ -2,30 +2,80 @@
 <html>
   <head>
     <title>Bookers2</title>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://kit.fontawesome.com/d289207a16.js" crossorigin="anonymous"></script>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body>
-    <header>
-      <%if user_signed_in?%>
-        <li>
-        <%= link_to '投稿フォーム', new_post_image_path %>
-        <li>
-        <%= link_to 'マイページ', user_path(current_user.id) %>
-        <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-        </li>
-    <% else %>
-      <li>
-        <%= link_to "新規登録", new_user_registration_path %>
-      </li>
-      <li>
-        <%= link_to "ログイン", new_user_session_path %>
-      </li>
-       <% end %>
-   </header>
-    <%= yield %>
+    <nav class="navbar navbar-dark bg-dark text-light">
+      <div class="container d-flex">
+        <div class="me-auto p-2 bd-highlight navbar-header">
+           <% if user_signed_in? %>
+             <%= link_to(books_path) do %>
+                 <span class="header-logo">Bookers</span>
+             <% end %>
+           <% else %>
+             <%= link_to(root_path) do %>
+                 <span class="header-logo">Bookers</span>
+             <% end %>
+           <% end %>
+        </div>
+          <div class="ms-2 bd-highlight">
+            <% if user_signed_in? %>
+
+                <%= link_to user_path(current_user.id) do %>
+                  <i class="fas fa-home"></i>Home
+                <% end %>
+
+                <%= link_to(users_path) do %>
+                  <i class="fas fa-users"></i>Users
+                <% end %>
+
+                <%= link_to(books_path) do %>
+                  <i class="fas fa-book-open"></i>Books
+                <% end %>
+
+                <%= link_to(destroy_user_session_path, method: :delete) do %>
+                  <i class="fas fa-sign-out-alt"></i>Log out
+                <% end %>
+
+            <% else %>
+
+                <%= link_to(root_path) do %>
+                  <i class="fas fa-home"></i>Home
+                <% end %>
+
+
+                <%= link_to(about_path) do %>
+                  <i class="fas fa-link"></i>About
+                <% end %>
+
+
+                <%= link_to(new_user_registration_path) do %>
+                  <i class="fas fa-user-plus"></i>Sign up
+                <% end %>
+
+
+                <%= link_to(new_user_session_path) do %>
+                  <i class="fas fa-sign-in-alt"></i>Log in
+                <% end %>
+
+            <% end %>
+          </div>
+
+      </div>
+    </nav>
+    <div class="container">
+      <p class="flash"><%= notice %></p>
+      <%= yield %>
+      <div class="pt-5 row justify-content-center">
+        <p class="col-xs-3 col-xs-offset-9">CopyRight Infratop.inc</p>
+      </div>
+    </div>
   </body>
+</html>

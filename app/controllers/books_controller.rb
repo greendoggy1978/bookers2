@@ -9,24 +9,32 @@ class BooksController < ApplicationController
  def show
    @book_new= Book.new
    @book= Book.find(params[:id])
+
  end
 
  def destroy
    @book= Book.find(params[:id])
-
-   @book_image = 削除するBookImageレコードを取得
-   @book_image.削除
-    redirect_to BookImageの一覧ページへのパス
+   @book.destroy
+   redirect_to books_path
  end
 
  def edit
    @book = Book.find(params[:id])
+   if @book.user.id == current_user.id
+      render 'edit'
+   else
+      redirect_to books_path
+   end
  end
 
  def update
    @book = Book.find(params[:id])
-   @book.update(book_params)
-   redirect_to book_path(@book.id)
+   if @book.update(book_params)
+       flash[:update] = "You have updated book successfully."
+       redirect_to book_path(@book.id)
+   else
+       render 'edit'
+   end
  end
 
  def new
@@ -34,14 +42,18 @@ class BooksController < ApplicationController
  end
 
 
-def create
-    # １.&2. データを受け取り新規登録するためのインスタンス作成
-    book = Book.new(book_params)
-    # 3. データをデータベースに保存するためのsaveメソッド実行
-    book.save
-    # 4. トップ画面へリダイレクト
-    redirect_to '/top'
-end
+ def create
+  	@book = Book.new(book_params)
+  	@book.user_id = current_user.id
+    if @book.save
+       flash[:save] = "You have creatad book successfully."
+       @books = Book.all
+  	   redirect_to book_path(@book)
+    else
+      @books = Book.all
+      render 'index'
+    end
+ end
 
  private
 

@@ -1,14 +1,28 @@
-<h1>投稿一覧</h1>
-<% @users.each do |user| %>
-  <p>タイトル</p>
-  <span>
-    <%= link_to user.title, user_path(user.id) %>
-  </span>
-  <p>画像
-  <% if users.image.attached? %>
-    <%= image_tag user.image, size: "200x200" %>
-  <% else %>
-    <%= image_tag 'no_image', size: "200x200" %>
-  <% end %>
-  </p>
-<% end %>
+<div class="container row">
+  <div class="col-md-3">
+    <%= render '/users/info', user: current_user %>
+    <%= render '/books/new', book: @book %>
+  </div>
+
+  <div class="col-md-8 offset-md-1">
+    <h2>Users</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-3">image</th>
+          <th class="col-4">name</th>
+          <th class="col-5"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+      		<tr>
+          		<td><%= image_tag(user.get_profile_image(100,100)) %></td>
+          		<td><%= user.name %></td>
+          		<td><%= link_to 'Show', user_path(user) %></td>
+      		</tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
